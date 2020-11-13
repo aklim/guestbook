@@ -31,7 +31,6 @@
         <div>No comments have been posted yet for this conference.</div>
     {% endif %}
 
-    <p>
-        <a href="{{ path('homepage') }}">Go Back</a>
-    </p>
+    <h2>Add your own feedback</h2>
+    {{ form(comment_form) }}
 {% endblock %}
