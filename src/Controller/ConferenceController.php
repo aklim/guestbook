@@ -37,7 +37,17 @@ class ConferenceController extends AbstractController
     }
     
     /**
-     * @Route("/", name="homepage")
+     * @Route("/")
+     *
+     * @return Response
+     */
+    public function indexNoLocale(): Response
+    {
+        return $this->redirectToRoute('homepage', ['_locale' => 'en']);
+    }
+    
+    /**
+     * @Route("{_locale<%app.supported_locales%>}", name="homepage")
      *
      * @param ConferenceRepository $conferenceRepository
      *
@@ -58,7 +68,7 @@ class ConferenceController extends AbstractController
     }
     
     /**
-     * @Route("/conference_header", name="conference_header")
+     * @Route("{_locale<%app.supported_locales%>}/conference_header", name="conference_header")
      */
     public function conferenceHeader(ConferenceRepository $conferenceRepository): Response
     {
@@ -68,7 +78,7 @@ class ConferenceController extends AbstractController
     }
     
     /**
-     * @Route("/conference/{slug}", name="conference")
+     * @Route("{_locale<%app.supported_locales%>}/conference/{slug}", name="conference")
      *
      * @param Request           $request
      * @param Conference        $conference
@@ -110,7 +120,7 @@ class ConferenceController extends AbstractController
                 'referrer'   => $request->headers->get('referer'),
                 'permalink'  => $request->getUri(),
             ];
-    
+            
             $reviewUrl = $this->generateUrl('review_comment', ['id' => $comment->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
             $this->bus->dispatch(new CommentMessage($comment->getId(), $reviewUrl, $context));
             
